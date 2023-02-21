@@ -64,8 +64,8 @@ services:
     image: steveltn/https-portal
     env_file: ./.env
     ports:
-      - '80:80'
-      - '443:443'
+      - '172.17.0.1:4580:80'
+      # - '443:443'
     links:
       - outline
       - storage
