@@ -82,7 +82,7 @@ services:
     #   timeout: 20s
     #   retries: 3
     environment:
-      DOMAINS: 'docs.mycompany.com -> http://outline:3000'
+      DOMAINS: 'docs.mycompany.com -> https://outline:3203'
       STAGE: 'production'
       WEBSOCKET: 'true'
 

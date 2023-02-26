@@ -17,8 +17,8 @@ ports:
     isAuth: false
   - protocol: "HTTPS"
     targetProtocol: "HTTP"
-    listeningPort: "9045"
-    targetPort: "9005"
+    listeningPort: "3045"
+    targetPort: "3203"
     targetIP: "172.17.0.1"
     public: true
     path: "/"
