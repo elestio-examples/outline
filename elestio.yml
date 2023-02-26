@@ -15,6 +15,14 @@ ports:
     public: true
     path: "/"
     isAuth: false
+  - protocol: "HTTPS"
+    targetProtocol: "HTTP"
+    listeningPort: "9045"
+    targetPort: "9005"
+    targetIP: "172.17.0.1"
+    public: true
+    path: "/"
+    isAuth: false
 environments:
   - key: "NODE_ENV"
     value: "production"
@@ -65,7 +73,7 @@ environments:
   - key: "AWS_S3_ACCELERATE_URL"
     value: ""
   - key: "AWS_S3_UPLOAD_BUCKET_URL"
-    value: "https://wiki.[CI_CD_DOMAIN]"
+    value: "https://[CI_CD_DOMAIN]:9005"
   - key: "AWS_S3_UPLOAD_BUCKET_NAME"
     value: "outline"
   - key: "AWS_S3_UPLOAD_MAX_SIZE"
@@ -77,7 +85,7 @@ environments:
   - key: "MINIO_ROOT_PASSWORD"
     value: "random_password"
   - key: "MINIO_BROWSER_REDIRECT_URL"
-    value: "https://wikidata-admin.[CI_CD_DOMAIN]"
+    value: "https://[CI_CD_DOMAIN]:9005"
 
 config:
   runTime: "dockerCompose"
