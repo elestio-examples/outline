@@ -45,6 +45,10 @@ services:
   storage:
     image: minio/minio
     env_file: ./.env
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+      - MINIO_BROWSER_REDIRECT_URL=${MINIO_BROWSER_REDIRECT_URL}
     ports:
       - "9000:9000"
     entrypoint: sh
