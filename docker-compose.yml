@@ -19,11 +19,11 @@ services:
     volumes:
       - ./redis.conf:/redis.conf
     command: ["redis-server", "/redis.conf"]
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 30s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "redis-cli", "ping"]
+    #   interval: 10s
+    #   timeout: 30s
+    #   retries: 3
 
   postgres:
     image: postgres
@@ -32,11 +32,11 @@ services:
       - "5432:5432"
     volumes:
       - database-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "pg_isready"]
+    #   interval: 30s
+    #   timeout: 20s
+    #   retries: 3
     environment:
       POSTGRES_USER: 'user'
       POSTGRES_PASSWORD: 'pass'
@@ -50,7 +50,7 @@ services:
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       - MINIO_BROWSER_REDIRECT_URL=${MINIO_BROWSER_REDIRECT_URL}
     ports:
-      - "9000:9000"
+      - "9005:9000"
     entrypoint: sh
     command: -c 'minio server'
     deploy:
@@ -58,11 +58,11 @@ services:
         condition: on-failure
     volumes:
       - storage-data:/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:9005/minio/health/live"]
+    #   interval: 30s
+    #   timeout: 20s
+    #   retries: 3
 
   https-portal:
     image: steveltn/https-portal
@@ -76,11 +76,11 @@ services:
     restart: always
     volumes:
       - https-portal-data:/var/lib/https-portal
-    healthcheck:
-      test: ["CMD", "service", "nginx", "status"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "service", "nginx", "status"]
+    #   interval: 30s
+    #   timeout: 20s
+    #   retries: 3
     environment:
       DOMAINS: 'docs.mycompany.com -> http://outline:3000'
       STAGE: 'production'
