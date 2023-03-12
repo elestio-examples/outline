@@ -6,5 +6,18 @@
 # mkdir -p ./data
 # chown -R 1000:1000 ./data
 
-docker-compose run --rm outline yarn db:create --env=production-ssl-disabled
-docker-compose run --rm outline yarn db:migrate --env=production-ssl-disabled
+MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-`openssl rand -hex 8`}
+MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-`openssl rand -hex 32`}
+SECRET_KEY=${SECRET_KEY:-`openssl rand -hex 32`}
+UTILS_SECRET=${UTILS_SECRET:-`openssl rand -hex 32`}
+SECRET_KEY=${SECRET_KEY:-`openssl rand -hex 32`}
+OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET:-`openssl rand -hex 28`}
+
+cat << EOT >> ./.env
+MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+SECRET_KEY=${SECRET_KEY}
+UTILS_SECRET=${UTILS_SECRET}
+OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET}
+SECRET_KEY=${SECRET_KEY}
+EOT
