@@ -3,8 +3,8 @@
 
 # apt install jq -y
 
-# mkdir -p ./data
-# chown -R 1000:1000 ./data
+mkdir -p ./config/uc/fixtures
+chown -R 1000:1000 ./config/uc/fixtures
 
 MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-`openssl rand -hex 8`}
 MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-`openssl rand -hex 32`}
@@ -15,7 +15,6 @@ DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-`openssl rand -hex 32`}
 
 sed -i "s|MINIO_ACCESS_KEY_TO_CHANGE|$MINIO_ACCESS_KEY|g" ./docker-compose.yml
 sed -i "s|MINIO_SECRET_KEY_TO_CHANGE|$MINIO_SECRET_KEY|g" ./docker-compose.yml
-sed -i "s|CLIENT_TO_CHANGE|$OIDC_CLIENT_SECRET|g" ./config/uc/fixtures/oidc-server-outline-client.json
 
 # cat << EOT >> ./scripts/config.sh
 
@@ -52,7 +51,7 @@ cat << EOT >> ./env.oidc
 
 OIDC_CLIENT_ID=050984
 OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET}
-OIDC_AUTH_URI=http://172.17.0.1:8888/uc/oauth/authorize/
+OIDC_AUTH_URI=$URL_ADDRESS/uc/oauth/authorize/
 OIDC_TOKEN_URI=http://wk-nginx/uc/oauth/token/
 OIDC_USERINFO_URI=http://wk-nginx/uc/oauth/userinfo/
 
@@ -87,12 +86,12 @@ UTILS_SECRET=${OUTLINE_UTILS_SECRET}
 
 
 # Must point to the publicly accessible URL for the installation
-URL=http://172.17.0.1:8888
+URL=$URL_ADDRESS
 PORT=3000
 
 # Optional. If using a Cloudfront distribution or similar the origin server
 # should be set to the same as URL.
-CDN_URL=http://172.17.0.1:8888
+CDN_URL=$URL_ADDRESS
 
 # enforce (auto redirect to) https in production, (optional) default is true.
 # set to false if your SSL is terminated at a loadbalancer, for example
@@ -125,7 +124,7 @@ SENTRY_DSN=
 AWS_ACCESS_KEY_ID=${MINIO_ACCESS_KEY}
 AWS_SECRET_ACCESS_KEY=${MINIO_SECRET_KEY}
 AWS_REGION=xx-xxxx-x
-AWS_S3_UPLOAD_BUCKET_URL=http://172.17.0.1:8888
+AWS_S3_UPLOAD_BUCKET_URL=$URL_ADDRESS
 AWS_S3_UPLOAD_MAX_SIZE=26214400
 AWS_S3_FORCE_PATH_STYLE=true
 # uploaded s3 objects permission level, default is private
@@ -173,7 +172,7 @@ cat << EOT >> ./config/uc/fixtures/oidc-server-outline-client.json
       "logo": "",
       "reuse_consent": true,
       "require_consent": true,
-      "_redirect_uris": "http://172.17.0.1:8888/auth/oidc.callback",
+      "_redirect_uris": "$URL_ADDRESS/auth/oidc.callback",
       "_post_logout_redirect_uris": "",
       "_scope": "",
       "response_types": [
