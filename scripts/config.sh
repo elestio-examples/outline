@@ -1,5 +1,5 @@
 # The url used to vist this web site.
-URL=http://127.0.0.1:8888
+
 # The default interface language. See translate.getoutline.com for a list of
 # available language codes and their rough percentage translated.
 DEFAULT_LANGUAGE=en_US
