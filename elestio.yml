@@ -44,6 +44,8 @@ environments:
     value: ""
   - key: "SMTP_FROM_EMAIL"
     value: "[DOMAIN]@vm.elestio.app"
+  - key: "PIPELINE_NAME"
+    value: "[PIPELINE_NAME]"
   # - key: "SMTP_REPLY_EMAIL"
   #   value: ""
   # - key: "SMTP_TLS_CIPHERS"
