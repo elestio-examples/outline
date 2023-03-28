@@ -1,176 +1,8 @@
-# # version: "3"
-# # services:
-
-# #   outline:
-# #     image: outlinewiki/outline
-# #     env_file: ./.env
-# #     ports:
-# #       - "172.17.0.1:2345:3000"
-# #     depends_on:
-# #       - postgres
-# #       - redis
-# #       - storage
-
-# #   redis:
-# #     image: redis
-# #     env_file: ./.env
-# #     ports:
-# #       - "6379:6379"
-# #     volumes:
-# #       - ./redis.conf:/redis.conf
-# #     command: ["redis-server", "/redis.conf"]
-# #     # healthcheck:
-# #     #   test: ["CMD", "redis-cli", "ping"]
-# #     #   interval: 10s
-# #     #   timeout: 30s
-# #     #   retries: 3
-
-# #   postgres:
-# #     image: postgres
-# #     env_file: ./.env
-# #     ports:
-# #       - "5432:5432"
-# #     volumes:
-# #       - database-data:/var/lib/postgresql/data
-# #     # healthcheck:
-# #     #   test: ["CMD", "pg_isready"]
-# #     #   interval: 30s
-# #     #   timeout: 20s
-# #     #   retries: 3
-# #     environment:
-# #       POSTGRES_USER: 'user'
-# #       POSTGRES_PASSWORD: 'pass'
-# #       POSTGRES_DB: 'outline'
-
-# #   storage:
-# #     image: minio/minio
-# #     env_file: ./.env
-# #     environment:
-# #       - MINIO_ROOT_USER=minio
-# #       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
-# #       - MINIO_BROWSER_REDIRECT_URL=${MINIO_BROWSER_REDIRECT_URL}
-# #     ports:
-# #       - "9005:9000"
-# #     entrypoint: sh
-# #     command: -c 'minio server'
-# #     deploy:
-# #       restart_policy:
-# #         condition: on-failure
-# #     volumes:
-# #       - storage-data:/data
-# #     # healthcheck:
-# #     #   test: ["CMD", "curl", "-f", "http://localhost:9005/minio/health/live"]
-# #     #   interval: 30s
-# #     #   timeout: 20s
-# #     #   retries: 3
-
-# #   https-portal:
-# #     image: steveltn/https-portal
-# #     env_file: ./.env
-# #     ports:
-# #       - '172.17.0.1:4580:80'
-# #       # - '443:443'
-# #     links:
-# #       - outline
-# #       - storage
-# #     restart: always
-# #     volumes:
-# #       - https-portal-data:/var/lib/https-portal
-# #     # healthcheck:
-# #     #   test: ["CMD", "service", "nginx", "status"]
-# #     #   interval: 30s
-# #     #   timeout: 20s
-# #     #   retries: 3
-# #     environment:
-# #       DOMAINS: 'docs.mycompany.com -> https://outline:3203'
-# #       STAGE: 'production'
-# #       WEBSOCKET: 'true'
-
-# # volumes:
-# #   https-portal-data:
-# #   storage-data:
-# #   database-data:
-
-# version: "3"
-# services:
-#   wk-redis:
-#     image: redis:latest
-#     restart: always
-#   wk-postgres:
-#     image: postgres:14.4-alpine3.16
-#     environment:
-#       POSTGRES_USER: user
-#       POSTGRES_PASSWORD: pass
-#       POSTGRES_DB: outline
-#     volumes:
-#       - ./data/pgdata:/var/lib/postgresql/data
-#     restart: always
-#   wk-minio:
-#     image: minio/minio:RELEASE.2022-11-17T23-20-09Z
-#     volumes:
-#       - ./data/minio_root:/minio_root:z
-#       - ./data/certs:/root/.minio/certs:z
-#     command: "minio server /minio_root"
-#     env_file:
-#       - ./.env
-#     restart: always
-#   wk-createbuckets:
-#     image: minio/mc:RELEASE.2022-11-17T21-20-39Z
-#     depends_on:
-#       - wk-minio
-#     env_file:
-#       - ./.env
-#     entrypoint: >
-#       /bin/sh -c "
-#       until (/usr/bin/mc config host add minio http://wk-minio:9000 ${MINIO_ACCESS_KEY} ${MINIO_SECRET_KEY}) do echo '...waiting...' && sleep 1; done;
-#       /usr/bin/mc mb minio/outline-bucket;
-#       /usr/bin/mc anonymous set download minio/outline-bucket;
-#       exit 0;
-#       "
-#   wk-outline:
-#     image: outlinewiki/outline
-#     command: sh -c "yarn db:migrate --env production-ssl-disabled && yarn start"
-#     environment:
-#       - DATABASE_URL=postgres://user:pass@wk-postgres:5432/outline
-#       - DATABASE_URL_TEST=postgres://user:pass@wk-postgres:5432/outline-test
-#       - REDIS_URL=redis://wk-redis:6379
-#       - AWS_S3_UPLOAD_BUCKET_NAME=outline-bucket
-#     env_file:
-#       - ./.env
-#     restart: always
-#     depends_on:
-#       - wk-postgres
-#       - wk-redis
-#       - wk-minio
-#   wk-oidc-server:
-#     image: vicalloy/oidc-server
-#     volumes:
-#       - ./config/uc/fixtures:/app/oidc_server/fixtures:z
-#       - ./data/uc/db:/app/db:z
-#       - ./data/uc/static_root:/app/static_root:z
-#     restart: always
-#     env_file:
-#       - ./.env
-#   wk-nginx:
-#     image: nginx
-#     ports:
-#       - 172.17.0.1:9098:80
-#     volumes:
-#       - ./config/nginx/:/etc/nginx/conf.d/:ro
-#       - ./data/uc/static_root:/uc/static_root:ro
-#     restart: always
-#     depends_on:
-#       - wk-minio
-#       - wk-outline
-#       - wk-oidc-server
-
 version: "3"
 services:
   wk-redis:
     image: redis:latest
     restart: always
-    # networks:
-    #   - ${NETWORKS}
   wk-postgres:
     image: postgres:${POSTGRES_VERSION}
     environment:
@@ -180,8 +12,6 @@ services:
     volumes:
       - ./data/pgdata:/var/lib/postgresql/data
     restart: always
-    # networks:
-    #   - ${NETWORKS}
   wk-minio:
     image: minio/minio:${MINIO_VERSION}
     volumes:
@@ -191,8 +21,6 @@ services:
     env_file:
       - ./env.minio
     restart: always
-    # networks:
-    #   - ${NETWORKS}
   wk-createbuckets:
     image: minio/mc:${MINIO_MC_VERSION}
     depends_on:
@@ -206,8 +34,6 @@ services:
       /usr/bin/mc anonymous set download minio/outline-bucket;
       exit 0;
       "
-    # networks:
-    #   - ${NETWORKS}
   wk-outline:
     image: outlinewiki/outline:${OUTLINE_VERSION}
     command: sh -c "yarn db:migrate --env production-ssl-disabled && yarn start"
@@ -224,8 +50,6 @@ services:
       - wk-postgres
       - wk-redis
       - wk-minio
-    # networks:
-    #   - ${NETWORKS}
   wk-oidc-server:
     image: vicalloy/oidc-server
     volumes:
@@ -235,8 +59,6 @@ services:
     restart: always
     env_file:
       - ./env.oidc-server
-    # networks:
-    #   - ${NETWORKS}
   wk-nginx:
     image: nginx
     ports:
@@ -249,8 +71,3 @@ services:
       - wk-minio
       - wk-outline
       - wk-oidc-server
-    # networks:
-    #   - ${NETWORKS}
-# networks:
-#   ${NETWORKS}:
-#     external: ${NETWORKS_EXTERNAL}

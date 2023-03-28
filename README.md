@@ -13,5 +13,5 @@ Deploy Outline server with CI/CD on Elestio
 You can can open Outline UI here:
 
     URL: https://[CI_CD_DOMAIN]
-    email:[ADMIN_EMAIL]
+    email: admin
     password: [ADMIN_PASSWORD]
