@@ -8,7 +8,7 @@ sleep 30s;
     docker-compose exec ${PIPELINE_NAME}_wk-oidc-server_1 bash -c "make init"
 	docker-compose exec ${PIPELINE_NAME}_wk-oidc-server_1 bash -c "python manage.py loaddata oidc-server-outline-client"
 
-    docker-compose down;
+    docker-compose down -v --remove-orphans;
     docker-compose up -d;
     echo "Restarting ..."
     sleep 60s;
