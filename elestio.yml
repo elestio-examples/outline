@@ -8,6 +8,10 @@ ports:
     path: "/"
     isAuth: false
 environments:
+  - key: "ADMIN_PASSWORD"
+    value: "random password"
+  - key: "ADMIN_EMAIL"
+    value: "[EMAIL]"
   # - key: "NODE_ENV"
   #   value: "production"
   # - key: "DATABASE_URL"
@@ -115,5 +119,5 @@ lifeCycleConfig:
 webUI:
   - url: "https://[CI_CD_DOMAIN]"
     label: "Outline Admin"
-    login: "[ADMIN_EMAIL]"
+    login: "admin"
     password: "[ADMIN_PASSWORD]"

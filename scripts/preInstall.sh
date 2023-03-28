@@ -3,6 +3,7 @@ set -o allexport; source .env; set +o allexport;
 
 # apt install jq -y
 
+chmod +x ./scripts/*.sh
 mkdir -p ./config/uc/fixtures
 chown -R 1000:1000 ./config/uc/fixtures
 
@@ -33,7 +34,7 @@ NETWORKS=outlinewiki
 NETWORKS_EXTERNAL=false
 HTTP_IP=172.17.0.1
 HTTP_PORT_IP=8888
-OUTLINE_VERSION=0.67.2
+OUTLINE_VERSION=latest
 POSTGRES_VERSION=15.2-alpine3.17
 MINIO_VERSION=RELEASE.2022-11-17T23-20-09Z
 MINIO_MC_VERSION=RELEASE.2022-11-17T21-20-39Z
