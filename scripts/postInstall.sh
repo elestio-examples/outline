@@ -16,10 +16,10 @@ sleep 30s;
 
 
     docker exec -t ${PIPELINE_NAME}_wk-oidc-server_1 sh -c "python manage.py createsuperuser --noinput --username=admin --email=$ADMIN_EMAIL"
-	docker exec -t ${PIPELINE_NAME}_wk-oidc-server_1 sh -c "python manage.py shell <<EOF
-    from django.contrib.auth.models import User
+		docker exec -t ${PIPELINE_NAME}_wk-oidc-server_1 sh -c "python manage.py shell <<EOF
+from django.contrib.auth.models import User
 
-    user = User.objects.get(username='admin')
-    user.set_password('$ADMIN_PASSWORD')
-    user.save()
-    EOF"
+user = User.objects.get(username='toto')
+user.set_password('popo')
+user.save()
+EOF"
