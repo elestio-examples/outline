@@ -9,7 +9,7 @@ ports:
     isAuth: false
 environments:
   - key: "ADMIN_PASSWORD"
-    value: "random password"
+    value: "random_password"
   - key: "ADMIN_EMAIL"
     value: "[EMAIL]"
   # - key: "NODE_ENV"
