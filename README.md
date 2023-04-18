@@ -10,7 +10,7 @@ Deploy Outline server with CI/CD on Elestio
 
 # Once deployed ...
 
-You can can open Outline UI here:
+You can open Outline UI here:
 
     URL: https://[CI_CD_DOMAIN]
     email: admin
