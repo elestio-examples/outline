@@ -3,6 +3,10 @@ set -o allexport; source .env; set +o allexport;
 
 #wait until the server is ready
 echo "Waiting for software to be ready ..."
+if [ -e "./scripts/config.sh" ]; then
+    sleep 30s;
+    exit 0;
+fi
 sleep 60s;
 
     docker exec ${PIPELINE_NAME}_wk-oidc-server_1 bash -c "make init"
