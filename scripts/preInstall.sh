@@ -9,7 +9,7 @@ chown -R 1000:1000 ./config/uc/fixtures
 
 if [ -e "./scripts/config.sh" ]; then
    return 0;
-fi
+else
 
 MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-`openssl rand -hex 8`}
 MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-`openssl rand -hex 32`}
@@ -197,3 +197,5 @@ cat << EOT >> ./config/uc/fixtures/oidc-server-outline-client.json
 
 
 EOT
+
+fi
