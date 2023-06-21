@@ -7,6 +7,10 @@ chmod +x ./scripts/*.sh
 mkdir -p ./config/uc/fixtures
 chown -R 1000:1000 ./config/uc/fixtures
 
+if [ -e "./scripts/config.sh" ]; then
+   return 0;
+fi
+
 MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-`openssl rand -hex 8`}
 MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-`openssl rand -hex 32`}
 OIDC_CLIENT_SECRET=${MINIO_SECRET_KEY:-`openssl rand -hex 28`}
@@ -27,6 +31,8 @@ OUTLINE_UTILS_SECRET=${OUTLINE_UTILS_SECRET}
 DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
 URL=$URL_ADDRESS
 EOT
+
+
 
 cat << EOT >> ./.env
 
