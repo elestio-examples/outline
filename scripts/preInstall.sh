@@ -7,6 +7,10 @@ chmod +x ./scripts/*.sh
 mkdir -p ./config/uc/fixtures
 chown -R 1000:1000 ./config/uc/fixtures
 
+if [ -e "./scripts/config.sh" ]; then
+   exit 0;
+fi
+
 MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-`openssl rand -hex 8`}
 MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-`openssl rand -hex 32`}
 OIDC_CLIENT_SECRET=${MINIO_SECRET_KEY:-`openssl rand -hex 28`}
