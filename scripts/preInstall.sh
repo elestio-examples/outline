@@ -7,7 +7,7 @@ chmod +x ./scripts/*.sh
 mkdir -p ./config/uc/fixtures
 chown -R 1000:1000 ./config/uc/fixtures
 
-if [ -e "./scripts/config.sh" ]; then
+if [ -e "./env.minio" ]; then
    exit 0;
 fi
 

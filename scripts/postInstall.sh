@@ -3,7 +3,7 @@ set -o allexport; source .env; set +o allexport;
 
 #wait until the server is ready
 echo "Waiting for software to be ready ..."
-if [ -e "./scripts/config.sh" ]; then
+if [ -e "./env.minio" ]; then
     sleep 30s;
     exit 0;
 fi
