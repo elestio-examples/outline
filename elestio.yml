@@ -24,7 +24,7 @@ environments:
     value: ""
   - key: "SMTP_FROM_EMAIL"
     value: "[DOMAIN]@vm.elestio.app"
-  - key: "PIPELINE_NAME"
+  - key: "SERVICE_NAME"
     value: "[PIPELINE_NAME]"
 
 config:
