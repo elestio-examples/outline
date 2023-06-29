@@ -144,6 +144,7 @@ SMTP_USERNAME=${SMTP_USERNAME}
 SMTP_PASSWORD=${SMTP_PASSWORD}
 SMTP_FROM_EMAIL=${SMTP_FROM_EMAIL}
 SMTP_REPLY_EMAIL=${SMTP_FROM_EMAIL}
+SMTP_SECURE=false
 
 # Custom logo that displays on the authentication screen, scaled to height: 60px
 # TEAM_LOGO=https://example.com/images/logo.png
