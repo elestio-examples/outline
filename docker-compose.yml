@@ -19,14 +19,14 @@ services:
       - ./data/certs:/root/.minio/certs:z
     command: "minio server /minio_root"
     env_file:
-      - ./env.minio
+      - ./.env
     restart: always
   wk-createbuckets:
     image: minio/mc:${MINIO_MC_VERSION}
     depends_on:
       - wk-minio
     env_file:
-      - ./env.minio
+      - ./.env
     entrypoint: >
       /bin/sh -c "
       until (/usr/bin/mc config host add minio http://wk-minio:9000 ${MINIO_ACCESS_KEY} ${MINIO_SECRET_KEY}) do echo '...waiting...' && sleep 1; done;
@@ -43,8 +43,7 @@ services:
       - REDIS_URL=redis://wk-redis:6379
       - AWS_S3_UPLOAD_BUCKET_NAME=outline-bucket
     env_file:
-      - ./env.outline
-      - ./env.oidc
+      - ./.env
     restart: always
     depends_on:
       - wk-postgres
@@ -58,7 +57,7 @@ services:
       - ./data/uc/static_root:/app/static_root:z
     restart: always
     env_file:
-      - ./env.oidc-server
+      - ./.env
   wk-nginx:
     image: nginx
     ports:
