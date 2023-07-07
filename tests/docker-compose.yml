@@ -1,0 +1,72 @@
+version: "3.3"
+services:
+  wk-redis:
+    image: redis:latest
+    restart: always
+  wk-postgres:
+    image: postgres:${POSTGRES_VERSION}
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: outline
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+    restart: always
+  wk-minio:
+    image: minio/minio:${MINIO_VERSION}
+    volumes:
+      - ./data/minio_root:/minio_root:z
+      - ./data/certs:/root/.minio/certs:z
+    command: "minio server /minio_root"
+    env_file:
+      - ./.env
+    restart: always
+  wk-createbuckets:
+    image: minio/mc:${MINIO_MC_VERSION}
+    depends_on:
+      - wk-minio
+    env_file:
+      - ./.env
+    entrypoint: >
+      /bin/sh -c "
+      until (/usr/bin/mc config host add minio http://wk-minio:9000 ${MINIO_ACCESS_KEY} ${MINIO_SECRET_KEY}) do echo '...waiting...' && sleep 1; done;
+      /usr/bin/mc mb minio/outline-bucket;
+      /usr/bin/mc anonymous set download minio/outline-bucket;
+      exit 0;
+      "
+  wk-outline:
+    image: elestio4test/outline:${OUTLINE_VERSION}
+    command: sh -c "yarn db:migrate --env production-ssl-disabled && yarn start"
+    environment:
+      - DATABASE_URL=postgres://user:pass@wk-postgres:5432/outline
+      - DATABASE_URL_TEST=postgres://user:pass@wk-postgres:5432/outline-test
+      - REDIS_URL=redis://wk-redis:6379
+      - AWS_S3_UPLOAD_BUCKET_NAME=outline-bucket
+    env_file:
+      - ./.env
+    restart: always
+    depends_on:
+      - wk-postgres
+      - wk-redis
+      - wk-minio
+  wk-oidc-server:
+    image: vicalloy/oidc-server
+    volumes:
+      - ./config/uc/fixtures:/app/oidc_server/fixtures:z
+      - ./data/uc/db:/app/db:z
+      - ./data/uc/static_root:/app/static_root:z
+    restart: always
+    env_file:
+      - ./.env
+  wk-nginx:
+    image: nginx
+    ports:
+      - 172.17.0.1:9098:80
+    volumes:
+      - ./config/nginx/:/etc/nginx/conf.d/:ro
+      - ./data/uc/static_root:/uc/static_root:ro
+    restart: always
+    depends_on:
+      - wk-minio
+      - wk-outline
+      - wk-oidc-server
