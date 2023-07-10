@@ -49,7 +49,7 @@ MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
 MINIO_BROWSER=off
 OIDC_CLIENT_ID=050984
 OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET}
-OIDC_AUTH_URI=$URL/uc/oauth/authorize/
+OIDC_AUTH_URI=http://wk-nginx/uc/oauth/authorize/
 OIDC_TOKEN_URI=http://wk-nginx/uc/oauth/token/
 OIDC_USERINFO_URI=http://wk-nginx/uc/oauth/userinfo/
 OIDC_USERNAME_CLAIM=preferred_username
@@ -63,7 +63,7 @@ SECRET_KEY=${OUTLINE_SECRET_KEY}
 UTILS_SECRET=${OUTLINE_UTILS_SECRET}
 URL=http://172.17.0.1
 PORT=3000
-CDN_URL=$URL
+CDN_URL=http://172.17.0.1
 FORCE_HTTPS=false
 ENABLE_UPDATES=true
 GOOGLE_CLIENT_ID=
@@ -114,7 +114,7 @@ cat << EOT >> ./config/uc/fixtures/oidc-server-outline-client.json
       "logo": "",
       "reuse_consent": true,
       "require_consent": true,
-      "_redirect_uris": "$URL/auth/oidc.callback",
+      "_redirect_uris": "http://172.17.0.1/auth/oidc.callback",
       "_post_logout_redirect_uris": "",
       "_scope": "",
       "response_types": [
