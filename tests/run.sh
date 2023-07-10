@@ -29,7 +29,7 @@ OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET}
 OUTLINE_SECRET_KEY=${OUTLINE_SECRET_KEY}
 OUTLINE_UTILS_SECRET=${OUTLINE_UTILS_SECRET}
 DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
-URL=$URL_ADDRESS
+URL=http://172.17.0.1
 EOT
 
 cat << EOT >> ./.env
@@ -49,7 +49,7 @@ MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
 MINIO_BROWSER=off
 OIDC_CLIENT_ID=050984
 OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET}
-OIDC_AUTH_URI=$URL_ADDRESS/uc/oauth/authorize/
+OIDC_AUTH_URI=$URL/uc/oauth/authorize/
 OIDC_TOKEN_URI=http://wk-nginx/uc/oauth/token/
 OIDC_USERINFO_URI=http://wk-nginx/uc/oauth/userinfo/
 OIDC_USERNAME_CLAIM=preferred_username
@@ -61,9 +61,9 @@ TIME_ZONE=UTC
 FORCE_SCRIPT_NAME=/uc
 SECRET_KEY=${OUTLINE_SECRET_KEY}
 UTILS_SECRET=${OUTLINE_UTILS_SECRET}
-URL=$URL_ADDRESS
+URL=http://172.17.0.1
 PORT=3000
-CDN_URL=$URL_ADDRESS
+CDN_URL=$URL
 FORCE_HTTPS=false
 ENABLE_UPDATES=true
 GOOGLE_CLIENT_ID=
@@ -76,7 +76,7 @@ GOOGLE_ALLOWED_DOMAINS=
 AWS_ACCESS_KEY_ID=${MINIO_ACCESS_KEY}
 AWS_SECRET_ACCESS_KEY=${MINIO_SECRET_KEY}
 AWS_REGION=xx-xxxx-x
-AWS_S3_UPLOAD_BUCKET_URL=$URL_ADDRESS
+AWS_S3_UPLOAD_BUCKET_URL=$URL
 AWS_S3_UPLOAD_MAX_SIZE=26214400
 AWS_S3_FORCE_PATH_STYLE=true
 AWS_S3_ACL=private
@@ -114,7 +114,7 @@ cat << EOT >> ./config/uc/fixtures/oidc-server-outline-client.json
       "logo": "",
       "reuse_consent": true,
       "require_consent": true,
-      "_redirect_uris": "$URL_ADDRESS/auth/oidc.callback",
+      "_redirect_uris": "$URL/auth/oidc.callback",
       "_post_logout_redirect_uris": "",
       "_scope": "",
       "response_types": [
