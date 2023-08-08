@@ -1,14 +1,14 @@
 version: "3.3"
 services:
   wk-redis:
-    image: redis:latest
+    image: redis:${REDIS_VERSION}
     restart: always
   wk-postgres:
     image: postgres:${POSTGRES_VERSION}
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: outline
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ./data/pgdata:/var/lib/postgresql/data
     restart: always
@@ -38,10 +38,10 @@ services:
     image: elestio4test/outline:${OUTLINE_VERSION}
     command: sh -c "yarn db:migrate --env production-ssl-disabled && yarn start"
     environment:
-      - DATABASE_URL=postgres://user:pass@wk-postgres:5432/outline
-      - DATABASE_URL_TEST=postgres://user:pass@wk-postgres:5432/outline-test
-      - REDIS_URL=redis://wk-redis:6379
-      - AWS_S3_UPLOAD_BUCKET_NAME=outline-bucket
+      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL_TEST=${DATABASE_URL_TEST}
+      - REDIS_URL=${REDIS_URL}
+      - AWS_S3_UPLOAD_BUCKET_NAME=${AWS_S3_UPLOAD_BUCKET_NAME}
     env_file:
       - ./.env
     restart: always

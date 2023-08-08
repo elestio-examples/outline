@@ -38,7 +38,6 @@ Copy the .env file from tests folder to the project directory
 
 Edit the .env file with your own values.
 
-
 Run the project with the following command
 
     docker-compose up -d
@@ -52,14 +51,14 @@ Here are some example snippets to help you get started creating a container.
        version: "3.3"
        services:
         wk-redis:
-            image: redis:latest
+            image: redis:${REDIS_VERSION}
             restart: always
         wk-postgres:
             image: postgres:${POSTGRES_VERSION}
             environment:
-            POSTGRES_USER: user
-            POSTGRES_PASSWORD: pass
-            POSTGRES_DB: outline
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
             volumes:
             - ./data/pgdata:/var/lib/postgresql/data
             restart: always
@@ -89,10 +88,10 @@ Here are some example snippets to help you get started creating a container.
             image: elestio4test/outline:${OUTLINE_VERSION}
             command: sh -c "yarn db:migrate --env production-ssl-disabled && yarn start"
             environment:
-            - DATABASE_URL=postgres://user:pass@wk-postgres:5432/outline
-            - DATABASE_URL_TEST=postgres://user:pass@wk-postgres:5432/outline-test
-            - REDIS_URL=redis://wk-redis:6379
-            - AWS_S3_UPLOAD_BUCKET_NAME=outline-bucket
+            - DATABASE_URL=${DATABASE_URL}
+            - DATABASE_URL_TEST=${DATABASE_URL_TEST}
+            - REDIS_URL=${REDIS_URL}
+            - AWS_S3_UPLOAD_BUCKET_NAME=${AWS_S3_UPLOAD_BUCKET_NAME}
             env_file:
             - ./.env
             restart: always
@@ -124,15 +123,20 @@ Here are some example snippets to help you get started creating a container.
 
 ### Environment variables
 
-|       Variable       | Value (example) |
-| :------------------: | :-------------: |
-| POSTGRES_VERSION     |     latest      |
-| MINIO_VERSION        |     latest      |
-| MINIO_MC_VERSION     |     latest      |
-| OUTLINE_VERSION      |     latest      |
-
-
-
+|         Variable          |    Value (example)     |
+| :-----------------------: | :--------------------: |
+|       REDIS_VERSION       |         latest         |
+|     POSTGRES_VERSION      |         latest         |
+|       POSTGRES_USER       |       user-name        |
+|     POSTGRES_PASSWORD     |       user-pass        |
+|        POSTGRES_DB        |        db-name         |
+|       MINIO_VERSION       |         latest         |
+|     MINIO_MC_VERSION      |         latest         |
+|      OUTLINE_VERSION      |         latest         |
+|       DATABASE_URL        | postgre://postgres-url |
+|     DATABASE_URL_TEST     | postgre://postgres-url |
+|         REDIS_URL         |   redis://redis-url    |
+| AWS_S3_UPLOAD_BUCKET_NAME |      bucket-name       |
 
 # Maintenance
 
