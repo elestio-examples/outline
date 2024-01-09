@@ -1,0 +1,36 @@
+# The url used to vist this web site.
+
+# The default interface language. See translate.getoutline.com for a list of
+# available language codes and their rough percentage translated.
+DEFAULT_LANGUAGE=en_US
+# https://docs.djangoproject.com/en/2.2/ref/settings/#language-code
+LANGUAGE_CODE=en-us
+# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+TIME_ZONE=UTC
+FORCE_HTTPS=false
+# The domain in you email.
+# Comma separated list of domains to be allowed (optional).
+# If not set, the first user's domain is allowed by default.
+ALLOWED_DOMAINS=
+
+# Docker image version
+OUTLINE_VERSION=0.67.2
+POSTGRES_VERSION=15.2-alpine3.17
+MINIO_VERSION=RELEASE.2022-11-17T23-20-09Z
+MINIO_MC_VERSION=RELEASE.2022-11-17T21-20-39Z
+
+# Nginx
+# The nginx bind ip and port.
+# If you use ip address to access outline, this ip and port should be same as the URL.
+# If this server behind a proxy(nginx), you can bind to `127.0.0.1`.
+HTTP_IP=127.0.0.1
+HTTP_PORT_IP=8888
+
+# Docker
+# If you server behind a proxy(nginx), and the proxy created by docker. You can use the proxy's network. Set the `NETWORKS` to proxy's network name, and set `NETWORKS_EXTERNAL` to `true` .
+# The sample config for host nginx can be find in `config/sample/nginx_outline.conf`.
+NETWORKS=outlinewiki
+NETWORKS_EXTERNAL=false
+
+# Secret keys, update by script.
+# You shouldn't edit it.
