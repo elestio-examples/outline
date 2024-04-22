@@ -37,3 +37,5 @@ By default, we set up a CNAME on elestio.app domain, but probably you will want 
     ./scripts/postInstall.sh;
 
 You will start over with a fresh instance of Outline directly configured with the correct custom domain name.
+
+#Note: To increase file import and upload limit check their doc https://docs.getoutline.com/s/hosting/doc/file-storage-N4M0T6Ypu7#h-environment-variables
