@@ -14,6 +14,8 @@ services:
     restart: always
   wk-minio:
     image: minio/minio:${MINIO_VERSION}
+    ports:
+      - 172.17.0.1:9000:9000
     volumes:
       - ./data/minio_root:/minio_root:z
       - ./data/certs:/root/.minio/certs:z
@@ -37,6 +39,8 @@ services:
   wk-outline:
     image: outlinewiki/outline:${OUTLINE_VERSION}
     command: sh -c "yarn db:migrate --env production-ssl-disabled && yarn start"
+    ports:
+      - 172.17.0.1:3000:3000
     environment:
       - DATABASE_URL=postgres://user:pass@wk-postgres:5432/outline
       - DATABASE_URL_TEST=postgres://user:pass@wk-postgres:5432/outline-test
@@ -51,6 +55,8 @@ services:
       - wk-minio
   wk-oidc-server:
     image: vicalloy/oidc-server
+    ports:
+      - 172.17.0.1:8000:8000
     volumes:
       - ./config/uc/fixtures:/app/oidc_server/fixtures:z
       - ./data/uc/db:/app/db:z
