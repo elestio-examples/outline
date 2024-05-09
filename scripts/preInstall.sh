@@ -55,6 +55,7 @@ OIDC_USERINFO_URI=http://wk-nginx/uc/oauth/userinfo/
 OIDC_USERNAME_CLAIM=preferred_username
 OIDC_DISPLAY_NAME=OpenID
 OIDC_SCOPES="openid profile email"
+OIDC_DISABLE_REDIRECT=true
 DEBUG=0
 LANGUAGE_CODE=en-us
 TIME_ZONE=UTC
