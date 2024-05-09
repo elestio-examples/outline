@@ -12,6 +12,8 @@ environments:
     value: "random_password"
   - key: "ADMIN_EMAIL"
     value: "[EMAIL]"
+  - key: "DOMAIN"
+    value: "[CI_CD_DOMAIN]"
   - key: "URL_ADDRESS"
     value: "https://[CI_CD_DOMAIN]"
   - key: "SMTP_HOST"
