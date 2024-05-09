@@ -49,6 +49,8 @@ services:
     env_file:
       - ./.env
     restart: always
+    extra_hosts:
+      - "${DOMAIN}:172.17.0.1"
     depends_on:
       - wk-postgres
       - wk-redis
