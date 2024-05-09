@@ -49,6 +49,8 @@ services:
     env_file:
       - ./.env
     restart: always
+    volumes:
+      - ./wiki_data:/var/lib/outline/data
     extra_hosts:
       - "${DOMAIN}:172.17.0.1"
     depends_on:
