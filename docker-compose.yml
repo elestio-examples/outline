@@ -37,7 +37,7 @@ services:
       exit 0;
       "
   wk-outline:
-    image: outlinewiki/outline:${OUTLINE_VERSION}
+    image: outlinewiki/outline:${SOFTWARE_VERSION_TAG}
     command: sh -c "yarn db:migrate --env production-ssl-disabled && yarn start"
     ports:
       - 172.17.0.1:3000:3000
