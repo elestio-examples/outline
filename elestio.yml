@@ -8,6 +8,8 @@ ports:
     path: "/"
     isAuth: false
 environments:
+  - key: "SOFTWARE_VERSION_TAG"
+    value: "0.75.0"
   - key: "ADMIN_PASSWORD"
     value: "random_password"
   - key: "ADMIN_EMAIL"
@@ -28,7 +30,6 @@ environments:
     value: "[DOMAIN]@vm.elestio.app"
   - key: "SERVICE_NAME"
     value: "[PIPELINE_NAME]"
-
 config:
   runTime: "dockerCompose"
   version: ""
